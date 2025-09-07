@@ -1,6 +1,5 @@
- (cd "$(git rev-parse --show-toplevel)" && git apply --3way <<'EOF' 
 diff --git a//dev/null b/admin-menu-arranger.php
-index 0000000000000000000000000000000000000000..a6b173a07f01e9d9a499162e99398cec8c222872 100644
+index 0000000000000000000000000000000000000000..ffdeca2f0e8a0c6ef2863871baa9d9256545b2da 100644
 --- a//dev/null
 +++ b/admin-menu-arranger.php
 @@ -0,0 +1,274 @@
@@ -16,14 +15,6 @@ index 0000000000000000000000000000000000000000..a6b173a07f01e9d9a499162e99398cec
 +if (!defined('ABSPATH')) {
 +    exit;
 +}
-+
-+function ama_menu_arranger_activate() {
-+    $user = wp_get_current_user();
-+    if ($user && in_array('administrator', (array) $user->roles, true)) {
-+        update_option('ama_admin_user', $user->ID);
-+    }
-+}
-+register_activation_hook(__FILE__, 'ama_menu_arranger_activate');
 +
 +class Admin_Menu_Arranger {
 +    private $option_name = 'ama_menu_config';
@@ -44,11 +35,19 @@ index 0000000000000000000000000000000000000000..a6b173a07f01e9d9a499162e99398cec
 +    }
 +
 +    public function __construct() {
++        register_activation_hook(__FILE__, array($this, 'on_activation'));
 +        add_action('admin_menu', array($this, 'setup_admin_page'));
 +        add_action('admin_menu', array($this, 'reorder_admin_menu'), 999);
 +        add_action('admin_init', array($this, 'save_settings'));
 +        add_action('admin_bar_menu', array($this, 'adjust_admin_bar'), 999);
 +        add_action('admin_enqueue_scripts', array($this, 'enqueue_assets'));
++    }
++
++    public function on_activation() {
++        $user = wp_get_current_user();
++        if ($user && in_array('administrator', (array) $user->roles)) {
++            update_option($this->admin_option_name, $user->ID);
++        }
 +    }
 +
 +    private function is_authorized() {
@@ -278,6 +277,3 @@ index 0000000000000000000000000000000000000000..a6b173a07f01e9d9a499162e99398cec
 +}
 +
 +new Admin_Menu_Arranger();
- 
-EOF
-)
