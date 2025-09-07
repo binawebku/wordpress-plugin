@@ -1,6 +1,6 @@
 # Admin Menu Arranger
 
-A lightweight WordPress plugin that lets a specific administrator hide, rename and reorder items in the admin menu and toolbar. Drag and drop menu rows to rearrange them. The plugin stores the activating administrator's user ID so only they can modify the menu configuration.
+A lightweight WordPress plugin that lets a specific administrator hide, rename and reorder items in the admin menu and top toolbar. Drag and drop rows to rearrange them. The plugin stores the activating administrator's user ID so only they can modify the menu configuration.
 
 **Author:** Wan Mohd Aiman Binawebpro.com
 

@@ -15,6 +15,20 @@ class Admin_Menu_Arranger {
     private $option_name = 'ama_menu_config';
     private $admin_option_name = 'ama_admin_user';
 
+    private function get_config() {
+        $defaults = array(
+            'hidden'         => array(),
+            'order'          => array(),
+            'labels'         => array(),
+            'submenu_order'  => array(),
+            'submenu_hidden' => array(),
+            'submenu_labels' => array(),
+            'bar_hidden'     => array(),
+            'bar_order'      => array(),
+        );
+        return wp_parse_args(get_option($this->option_name, array()), $defaults);
+    }
+
     public function __construct() {
         register_activation_hook(__FILE__, array($this, 'on_activation'));
         add_action('admin_menu', array($this, 'setup_admin_page'));
@@ -59,16 +73,7 @@ class Admin_Menu_Arranger {
             wp_die(__('You do not have permission to access this page.', 'admin-menu-arranger'));
         }
 
-        $config = get_option($this->option_name, array(
-            'hidden'         => array(),
-            'order'          => array(),
-            'labels'         => array(),
-            'submenu_order'  => array(),
-            'submenu_hidden' => array(),
-            'submenu_labels' => array(),
-            'bar_hidden'     => array(),
-            'bar_order'      => array(),
-        ));
+        $config = $this->get_config();
 
         echo '<div class="wrap"><h1>' . esc_html__('Menu Arranger', 'admin-menu-arranger') . '</h1><form method="post">';
         wp_nonce_field('ama_save');
@@ -187,14 +192,7 @@ class Admin_Menu_Arranger {
         if (!is_admin()) {
             return;
         }
-        $config = get_option($this->option_name, array(
-            'hidden'         => array(),
-            'order'          => array(),
-            'labels'         => array(),
-            'submenu_order'  => array(),
-            'submenu_hidden' => array(),
-            'submenu_labels' => array(),
-        ));
+        $config = $this->get_config();
 
         global $menu, $submenu;
         foreach ($menu as $index => $item) {
@@ -254,10 +252,7 @@ class Admin_Menu_Arranger {
     }
 
     public function adjust_admin_bar($wp_admin_bar) {
-        $config = get_option($this->option_name, array(
-            'bar_hidden' => array(),
-            'bar_order'  => array(),
-        ));
+        $config = $this->get_config();
         if (!empty($config['bar_hidden'])) {
             foreach ($config['bar_hidden'] as $id) {
                 $wp_admin_bar->remove_node($id);
