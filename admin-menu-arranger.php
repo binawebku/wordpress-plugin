@@ -64,6 +64,7 @@ class Admin_Menu_Arranger {
             'order'          => array(),
             'labels'         => array(),
             'submenu_order'  => array(),
+            'submenu_hidden' => array(),
             'submenu_labels' => array(),
             'bar_hidden'     => array(),
             'bar_order'      => array(),
@@ -94,10 +95,12 @@ class Admin_Menu_Arranger {
                     $subslug       = $sub[2];
                     $slabel        = strip_tags($sub[0]);
                     $custom_slabel = isset($config['submenu_labels'][$slug][$subslug]) ? $config['submenu_labels'][$slug][$subslug] : $slabel;
+                    $sub_hidden    = isset($config['submenu_hidden'][$slug]) && in_array($subslug, $config['submenu_hidden'][$slug], true) ? 'checked' : '';
                     echo '<li>';
                     echo '<span class="ama-handle dashicons dashicons-move"></span>';
                     echo '<input type="hidden" name="submenu_order[' . esc_attr($slug) . '][]" value="' . esc_attr($subslug) . '"/>';
-                    echo '<input type="text" name="submenu_labels[' . esc_attr($slug) . '][' . esc_attr($subslug) . ']" value="' . esc_attr($custom_slabel) . '"/>';
+                    echo '<input type="text" name="submenu_labels[' . esc_attr($slug) . '][' . esc_attr($subslug) . ']" value="' . esc_attr($custom_slabel) . '"/> ';
+                    echo '<label><input type="checkbox" name="submenu_hidden[' . esc_attr($slug) . '][]" value="' . esc_attr($subslug) . '" ' . $sub_hidden . '/> ' . esc_html__('Hide', 'admin-menu-arranger') . '</label>';
                     echo '</li>';
                 }
                 echo '</ul>';
@@ -147,6 +150,13 @@ class Admin_Menu_Arranger {
             }
         }
 
+        $submenu_hidden = array();
+        if (isset($_POST['submenu_hidden'])) {
+            foreach ((array) $_POST['submenu_hidden'] as $parent => $items) {
+                $submenu_hidden[sanitize_text_field($parent)] = array_map('sanitize_text_field', (array) $items);
+            }
+        }
+
         $submenu_labels = array();
         if (isset($_POST['submenu_labels'])) {
             foreach ((array) $_POST['submenu_labels'] as $parent => $pairs) {
@@ -166,6 +176,7 @@ class Admin_Menu_Arranger {
             'order'          => $order,
             'labels'         => $labels,
             'submenu_order'  => $submenu_order,
+            'submenu_hidden' => $submenu_hidden,
             'submenu_labels' => $submenu_labels,
             'bar_hidden'     => $bar_hidden,
             'bar_order'      => $bar_order,
@@ -181,6 +192,7 @@ class Admin_Menu_Arranger {
             'order'          => array(),
             'labels'         => array(),
             'submenu_order'  => array(),
+            'submenu_hidden' => array(),
             'submenu_labels' => array(),
         ));
 
@@ -198,6 +210,10 @@ class Admin_Menu_Arranger {
             if (isset($submenu[$slug])) {
                 foreach ($submenu[$slug] as $s_index => $s_item) {
                     $subslug = $s_item[2];
+                    if (!empty($config['submenu_hidden'][$slug]) && in_array($subslug, $config['submenu_hidden'][$slug], true)) {
+                        unset($submenu[$slug][$s_index]);
+                        continue;
+                    }
                     if (isset($config['submenu_labels'][$slug][$subslug])) {
                         $submenu[$slug][$s_index][0] = $config['submenu_labels'][$slug][$subslug];
                     }
