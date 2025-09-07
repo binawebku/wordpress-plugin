@@ -1,9 +1,3 @@
- (cd "$(git rev-parse --show-toplevel)" && git apply --3way <<'EOF' 
-diff --git a//dev/null b/admin-menu-arranger.php
-index 0000000000000000000000000000000000000000..a6b173a07f01e9d9a499162e99398cec8c222872 100644
---- a//dev/null
-+++ b/admin-menu-arranger.php
-@@ -0,0 +1,274 @@
 +<?php
 +/**
 + * Plugin Name: Admin Menu Arranger
