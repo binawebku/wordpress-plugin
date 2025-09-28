@@ -1,0 +1,63 @@
+/* AWB Scanner — CSS fixed centering (reticle kekal di tengah) */
+.awb-scanner{max-width:820px;margin:16px auto;padding:12px}
+
+/* Card */
+.awb-card{
+  background:#111;color:#e5e5e5;border-radius:16px;
+  padding:16px;box-shadow:0 10px 30px rgba(0,0,0,.35)
+}
+
+/* Video wrapper keeps aspect and provides anchor for overlay */
+.awb-video-wrap{
+  position:relative;width:100%;border-radius:12px;overflow:hidden;
+  background:#000;aspect-ratio:16/9
+}
+.awb-video-wrap video{
+  width:100%;height:100%;object-fit:cover;display:block
+}
+
+/* Overlay full cover */
+.awb-overlay{
+  position:absolute;
+  inset:0;
+  pointer-events:none;
+}
+
+/* Reticle sentiasa di tengah (guna absolute + transform) */
+.awb-reticle{
+  position:absolute;
+  top:50%;
+  left:50%;
+  transform:translate(-50%, -50%);
+  width:min(70%, 520px);
+  height:42%;
+  border:2px dashed rgba(255,255,255,.55);
+  border-radius:10px;
+  box-sizing:border-box;
+}
+
+/* Controls & inputs */
+.awb-controls{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-top:10px}
+.awb-select{flex:1;min-width:120px;padding:10px;border-radius:10px;border:1px solid #333;background:#1a1a1a;color:#eee}
+.awb-btn{padding:12px 14px;border-radius:10px;background:#2a2a2a;color:#fff;border:1px solid #333;cursor:pointer}
+.awb-btn:hover{filter:brightness(1.1)}
+.awb-btn-outline{background:transparent}
+.awb-btn-primary{background:#3a7afe}
+
+.awb-result,.awb-photo,.awb-post-fields{margin-top:12px;display:grid;gap:8px}
+.awb-result input,.awb-post-fields textarea{width:100%;padding:12px;border-radius:10px;border:1px solid #333;background:#1a1a1a;color:#eee}
+
+.awb-previews{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px}
+.awb-previews img{width:110px;height:110px;object-fit:cover;border-radius:8px;border:1px solid #333}
+
+.awb-actions{margin-top:14px;display:flex;gap:10px;align-items:center}
+.awb-status{font-size:.95rem}
+.awb-status.info{color:#c0c0c0}
+.awb-status.success{color:#86efac}
+.awb-status.error{color:#f87171}
+
+/* Mobile tweaks */
+@media (max-width:480px){
+  .awb-btn{flex:1}
+  .awb-controls{gap:6px}
+}
