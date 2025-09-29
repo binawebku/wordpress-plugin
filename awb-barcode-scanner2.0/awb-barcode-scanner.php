@@ -2,7 +2,7 @@
 /**
  * Plugin Name: AWB Barcode Scanner (Offline Bundle)
  * Description: Lite, fast barcode scanner with rear camera, beep, Publish/Draft, editable barcode, image size control, Breakdance meta, and offline decoder (local zxing.min.js). Admin sidebar + Admin Bar + Offline Decoder page (fetch/upload).
- * Version: 1.6.3
+ * Version: 1.6.4
  * Author: Wan Mohd Aiman Binawebpro.com
  * License: GPL2+
  * Text Domain: awb-barcode-scanner
@@ -11,7 +11,7 @@
 if ( ! defined( 'ABSPATH' ) ) exit;
 
 class AWB_Barcode_Scanner_Offline {
-    const VERSION = '1.6.3';
+    const VERSION = '1.6.4';
     const NONCE_ACTION = 'awb_scanner_nonce_action';
     const NONCE_NAME = 'awb_scanner_nonce';
     const OPT_KEY = 'awb_scanner_settings';

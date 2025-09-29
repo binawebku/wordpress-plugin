@@ -1,7 +1,7 @@
 /**
  * AWB Scanner JavaScript - Updated for stable cross-platform support
  * Compatible with the new stable zxing.min.js
- * Version: 1.6.1
+ * Version: 1.6.4
  */
 
 document.addEventListener('DOMContentLoaded', function() {
